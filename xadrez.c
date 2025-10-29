@@ -1,50 +1,73 @@
 #include <stdio.h>
 
+// Torre
+void moverTorre(int casasRestantes, int casaAtual) {
+    if (casasRestantes == 0) return; 
+    printf("Casa %d: Direita\n", casaAtual);
+    moverTorre(casasRestantes - 1, casaAtual + 1); 
+}
+
+// Bispo
+void moverBispo(int casasVerticais, int casasHorizontais, int casaV, int casaH) {
+    if (casasVerticais == 0) return; 
+    for (int h = 1; h <= casasHorizontais; h++) {
+        printf("Casa V%d H%d: Cima, Direita\n", casaV, casaH + h - 1);
+    }
+    moverBispo(casasVerticais - 1, casasHorizontais, casaV + 1, casaH); 
+}
+
+// Rainha
+void moverRainha(int casasRestantes, int casaAtual) {
+    if (casasRestantes == 0) return; 
+    printf("Casa %d: Esquerda\n", casaAtual);
+    moverRainha(casasRestantes - 1, casaAtual + 1); 
+}
+
 int main() {
-    
-    // Definindo o número de casas para cada peça
+
     const int casasTorre = 5;
-    const int casasBispo = 5;
+    const int casasBispoV = 5; // movimento verticalbispo
+    const int casasBispoH = 5; // movimento horizontal bispo
     const int casasRainha = 8;
+    const int movimentosCavalo = 3; // número de movimentos Cavalo
 
-    //Torre
+
+    // Movimento da Torre
+  
     printf("Movimento da Torre (5 casas para a direita):\n");
-    for (int i = 1; i <= casasTorre; i++) {
-        printf("Casa %d: Direita\n", i);
-    }
+    moverTorre(casasTorre, 1);
 
-    // Bispo
-    printf("\nMovimento do Bispo (5 casas na diagonal):\n");
-    int passoBispo = 1;
-    while (passoBispo <= casasBispo) {
-        printf("Casa %d: Cima, Direita\n", passoBispo);
-        passoBispo++;
-    }
+    // Movimento do Bispo
 
-    //Rainha
+    printf("\nMovimento do Bispo (diagonal superior direita):\n");
+    moverBispo(casasBispoV, casasBispoH, 1, 1);
+
+
+    // Movimento da Rainha
+
     printf("\nMovimento da Rainha (8 casas para a esquerda):\n");
-    int passoRainha = 1;
-    do {
-        printf("Casa %d: Esquerda\n", passoRainha);
-        passoRainha++;
-    } while (passoRainha <= casasRainha);
-    
-    // Movimento do cavalo em L: 2 casas para baixo + 1 casa para a esquerda
-    const int movimentosCavalo = 3;
-    printf("\nMovimento do Cavalo (em L - 2 para baixo e 1 para a esquerda):\n");
+    moverRainha(casasRainha, 1);
 
+
+    // Movimento do Cavalo
+
+    printf("\nMovimento do Cavalo (em L - 2 para cima e 1 para a direita):\n");
+
+    int movimento = 1;
+    int passo;
     for (int l = 1; l <= movimentosCavalo; l++) { 
         printf("\nMovimento L #%d:\n", l);
 
-       
-        int casasBaixo = 1;
-        while (casasBaixo <= 2) {
-            printf("Casa %d: Baixo\n", casasBaixo + (l-1)*3); 
-            casasBaixo++;
+        passo = 1;
+        while (passo <= 2) { 
+            printf("Casa %d: Cima\n", movimento);
+            movimento++;
+            passo++;
         }
 
-        // Uma casa para a esquerda após descer
-        printf("Casa %d: Esquerda\n", 3*l);
+
+        printf("Casa %d: Direita\n", movimento);
+        movimento++;
     }
 
     return 0;
